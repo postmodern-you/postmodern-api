@@ -50,7 +50,11 @@ it makes protocol drift explicit instead of silent.
 
 ## Roadmap (not yet here)
 
-- `API.md` — the human-readable wire spec.
-- the shared **fuzz corpus** + its generator (protocol-conformance data the Python and
-  Dart fuzzers both replay).
+- **`API.md`** (the human-readable spec) — *not a mechanical move*: it's woven into the
+  chat repo's design-doc web (DESIGN/IDENTITY/DISCOVERY/MESSAGING/POSTS), so extracting
+  it means first deciding which of those docs are open contract vs closed chat internals.
+  Best curated during the client open-sourcing pass, not relocated piecemeal.
+- the shared **fuzz corpus** + generator/replay (protocol-conformance data both fuzzers
+  use) — moving it here is clean now that `wire` + `pcm` live here, BUT it changes the
+  path the Flutter Dart suite reads, so it needs a coordinated cut with the client.
 - the **Dart** mirror package.
