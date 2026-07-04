@@ -31,14 +31,16 @@ it — so publishing the contract costs no secrecy and invites interoperable cli
 
 ```bash
 pip install -e .                                   # local dev (editable)
-# or pin a tag in a consumer's requirements.txt:
-#   postmodern-api @ git+https://github.com/postmodern-you/postmodern-api@v0.1.0
+# or pin a tagged release TARBALL in a consumer's requirements.txt:
+#   postmodern-api @ https://github.com/postmodern-you/postmodern-api/archive/refs/tags/v0.1.0.tar.gz
 ```
 
 Installs a top-level `wire` module, so consumers keep `import wire` unchanged.
 
-**Pin a tag/SHA, never a branch**, in anything reproducible (container builds, CI) —
-the whole point is a versioned contract.
+**Pin a tag, never a branch**, in anything reproducible (container builds, CI) — the
+whole point is a versioned contract. Prefer the **tarball** URL over `git+https://…`:
+pip needs a `git` binary for the latter, which slim base images (and thus lean
+containers) don't ship.
 
 ## Versioning
 
