@@ -10,6 +10,11 @@ requires-python = ">=3.11"
 license = { text = "AGPL-3.0-or-later" }
 dependencies = ["pynacl>=1.5"]
 
+# Only for regenerating + replaying the shared fuzz corpus (gen_fuzz_corpus.py,
+# tests/). Not needed to USE the wire/pcm modules.  pip install -e ".[dev]"
+[project.optional-dependencies]
+dev = ["hypothesis>=6", "pytest>=8"]
+
 # Top-level modules, so consumers keep `import wire` / `import pcm` unchanged.
 #   wire — signed-event bytes, vouchers, anon-tokens, canonical JSON, blob descriptors
 #   pcm  — the PCM comment/markdown normalizer (franking-critical; Dart-mirrored)

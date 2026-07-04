@@ -1,0 +1,21 @@
+name: test
+
+# Self-verify the contract: the package installs, and the shared fuzz corpus replays
+# clean through the wire/pcm parsers (no committed case may crash them).
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -e ".[dev]"
+      - name: Replay the fuzz corpus through wire/pcm
+        run: pytest -q tests/
