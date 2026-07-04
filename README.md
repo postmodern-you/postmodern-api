@@ -1,7 +1,14 @@
 # postmodern-api
 
-The **Postmodern wire protocol** — the single source of truth for the byte-exact
-contract that every part of the system must agree on:
+The **Postmodern wire protocol** — the single source of truth for how the pieces
+communicate. It owns the *interface*; the server + client repos own the
+*implementation*. Two halves:
+
+- **The specs** (human-readable, normative):
+  - [`API.md`](API.md) — the full client-facing wire spec (transport, crypto, every op).
+  - [`DISCOVERY.md`](DISCOVERY.md) — graph-private mutual contact discovery.
+  - [`MESSAGING.md`](MESSAGING.md) — message/room/DM crypto + the post-match handoff.
+- **The code** — the byte-exact primitives every part of the system must agree on:
 
 - signed-event bytes (message / vote / reaction / auth — `\x1f`-joined, domain-tagged),
 - the voucher and anon-token schemes (sign on the account plane, verify on the chat plane),
@@ -48,13 +55,12 @@ Bump `PROTOCOL_VERSION` (wire-visible protocol changes) and the package `version
 together; tag the repo; bump the pin in each consumer. That ceremony is the feature —
 it makes protocol drift explicit instead of silent.
 
+The specs were self-contained on the way out: they reference each other, but the chat
+repo's *internal* design docs (DESIGN/IDENTITY/POSTS — architecture + threat-model
+rationale, which stay closed) are cited only as prose, not links, so this spec stands
+alone for anyone implementing a client.
+
 ## Roadmap (not yet here)
 
-- **`API.md`** (the human-readable spec) — *not a mechanical move*: it's woven into the
-  chat repo's design-doc web (DESIGN/IDENTITY/DISCOVERY/MESSAGING/POSTS), so extracting
-  it means first deciding which of those docs are open contract vs closed chat internals.
-  Best curated during the client open-sourcing pass, not relocated piecemeal.
-- the shared **fuzz corpus** + generator/replay (protocol-conformance data both fuzzers
-  use) — moving it here is clean now that `wire` + `pcm` live here, BUT it changes the
-  path the Flutter Dart suite reads, so it needs a coordinated cut with the client.
-- the **Dart** mirror package.
+- the **Dart** mirror package (the protocol's second implementation; today it lives in
+  the Flutter client and is kept in parity via the shared fuzz corpus).
