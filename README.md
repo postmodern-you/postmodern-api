@@ -5,7 +5,7 @@ contract that every part of the system must agree on:
 
 - signed-event bytes (message / vote / reaction / auth — `\x1f`-joined, domain-tagged),
 - the voucher and anon-token schemes (sign on the account plane, verify on the chat plane),
-- canonical JSON (`canonical_json` — the structured analog of PCM normalization),
+- PCM comment/markdown normalization (`pcm.normalize_pcm` — franking-critical, Dart-mirrored) + `canonical_json`, its structured analog,
 - blob/media descriptor bodies (`PMBLOB1:`), blurhash validation, DID/base58 helpers,
 - the protocol-version handshake (`PROTOCOL_VERSION` / `MIN_PROTOCOL` / `protocol_compatible`).
 
@@ -50,8 +50,6 @@ it makes protocol drift explicit instead of silent.
 
 ## Roadmap (not yet here)
 
-- `pcm` — the PCM comment/markdown normalizer (franking-critical; currently in the chat
-  repo's `client/pcm.py`).
 - `API.md` — the human-readable wire spec.
 - the shared **fuzz corpus** + its generator (protocol-conformance data the Python and
   Dart fuzzers both replay).
