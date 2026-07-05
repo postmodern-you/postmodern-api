@@ -72,6 +72,20 @@ repo's *internal* design docs (DESIGN/IDENTITY/POSTS — architecture + threat-m
 rationale, which stay closed) are cited only as prose, not links, so this spec stands
 alone for anyone implementing a client.
 
+## Conformance suites (language-neutral)
+
+Two JSONL suites keep every implementation in lockstep — this repo's CI replays them
+against `wire`/`pmcrypto`, and the Dart client replays the SAME files against `PmCrypto`,
+so any cross-language drift fails a test on one side or the other:
+
+- **`fuzz_corpus/*.jsonl`** — adversarial *inputs* that must never crash the parsers
+  ("robustness"). Generator: `gen_fuzz_corpus.py`.
+- **`vectors/*.jsonl`** — golden known-answer cases `{op, in, out}` for signing-bytes,
+  sign/verify, DID↔pubkey, canonical JSON, blob-descriptor bodies, hashes/commitments,
+  vouchers, the anon-token FDH, and sealed round-trips ("correctness"). Generator:
+  `gen_vectors.py`; the `OPS` dispatch there is shared with the replay test, so expected
+  values are computed, never hand-copied. A third implementation gets both suites free.
+
 ## Roadmap (not yet here)
 
 - the **Dart** mirror package (the protocol's second implementation; today it lives in

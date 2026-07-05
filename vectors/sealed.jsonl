@@ -1,0 +1,2 @@
+{"op": "open_blob", "in": {"key": "b75fe3838285147f7e8bff0657b5766e2dbc27b3983eba65acfe11878191c65d", "sealed": "2cb5db1a783f3ac2c7034ed4a31b65613efbffa6e5d0a2add1a856f9fea16b2ef3b38c90dac1b652818a5de1dca531511948fb54a98be265c9940ecaf1e0dddb232401"}, "out": {"hello": "world", "n": 42}}
+{"op": "decrypt_room_text", "in": {"epochs": {"1": "50fc91cca93b01f711f18a9148940ad68211626926e29705df1a6328b078373a"}, "text": "v2:1:Yv8Op8aDDVJngK/0CUZjM13ZrTijwvAMIPVmmMtYXUmpmlLfITsJKR5wHLMHr70DyO4="}, "out": "secret ☕"}

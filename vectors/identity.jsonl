@@ -1,0 +1,10 @@
+{"op": "did_key", "in": {"sign_pub": "d04ab232742bb4ab3a1368bd4615e4e6d0224ab71a016baf8520a332c9778737"}, "out": "did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S"}
+{"op": "did_to_sign_pub", "in": {"did": "did:key:z6MktULudTtAsAhRegYPiZ6631RV3viv12qd4GQF8z1xB22S"}, "out": "d04ab232742bb4ab3a1368bd4615e4e6d0224ab71a016baf8520a332c9778737"}
+{"op": "canonical_json", "in": {"obj": {"z": [3, 2, 1], "a": "café ☕", "b": true, "n": null}}, "out": "{\"a\":\"café ☕\",\"b\":true,\"n\":null,\"z\":[3,2,1]}"}
+{"op": "blob_descriptor_body", "in": {"descriptor": {"_pm_blob": 1, "blob_id": "0123456789abcdef0123456789abcdef", "mime": "image/png", "size": 20480, "w": 800, "h": 600, "caption": "a café ☕ — *bold*", "blurhash": "L6PZfSi_.AyE_3t7t7R**0o#DgR4", "hash": "deadbeef", "enc": true, "epoch": 0}}, "out": "PMBLOB1:{\"_pm_blob\":1,\"blob_id\":\"0123456789abcdef0123456789abcdef\",\"blurhash\":\"L6PZfSi_.AyE_3t7t7R**0o#DgR4\",\"caption\":\"a café ☕ — *bold*\",\"enc\":true,\"epoch\":0,\"h\":600,\"hash\":\"deadbeef\",\"mime\":\"image/png\",\"size\":20480,\"w\":800}"}
+{"op": "hash_bytes", "in": {"data": "68656c6c6f20776f726c64"}, "out": "32353663383362323937313134643230316233303137396633663065663063616365393738333632326461353937343332366234333631373861656566363130"}
+{"op": "commit_public", "in": {"text": "hello ☕"}, "out": "35636632383437373235343738376330653032313334306535303766626336666639376161346437636139343136343566333533373231326162626534313430"}
+{"op": "commit_private", "in": {"fk": "7777777777777777777777777777777777777777777777777777777777777777", "plaintext": "secret message"}, "out": "d9e55154429894b028e942e014b8a569a844c36fdfffb4fad1f91ebd171eeac1"}
+{"op": "frank_key", "in": {"epoch_key": "abababababababababababababababababababababababababababababababab", "msg_id": "m1"}, "out": "3f6aa484aca188b89710ba42ade7db750c9ce3540d1f4b76b941121816c61192"}
+{"op": "blurhash_valid", "in": {"s": "L6PZfSi_.AyE_3t7t7R**0o#DgR4"}, "out": true}
+{"op": "blurhash_valid", "in": {"s": "not a blurhash"}, "out": false}
