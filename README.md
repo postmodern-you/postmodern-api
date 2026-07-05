@@ -55,6 +55,14 @@ Bump `PROTOCOL_VERSION` (wire-visible protocol changes) and the package `version
 together; tag the repo; bump the pin in each consumer. That ceremony is the feature —
 it makes protocol drift explicit instead of silent.
 
+## Changing the protocol
+
+A change here has to land byte-identically in three implementations (Python `wire`/`pcm`
++ the Dart mirror). **[`PROTOCOL_CHANGES.md`](PROTOCOL_CHANGES.md)** is the step-by-step
+workflow: what counts as a protocol change, the version-bump rules, contract-first
+tag/push ordering, the consumer bumps, the Dart mirror, and the drift detectors that
+keep the three in sync.
+
 The specs were self-contained on the way out: they reference each other, but the chat
 repo's *internal* design docs (DESIGN/IDENTITY/POSTS — architecture + threat-model
 rationale, which stay closed) are cited only as prose, not links, so this spec stands
