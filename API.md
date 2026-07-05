@@ -502,6 +502,31 @@ match into a DM. The handoff sets the DM up as an **ordinary 2-member private
 room** (§7a) — intro+pin `enc_pub` over the channel, then epoch-0 via the standard
 `inv1` path. No DM-specific crypto. See DISCOVERY.md §7 / MESSAGING.md §4.
 
+### 4.5 Corners (communities)
+
+A **corner** is a community — a container of one **board** (post surface) + **rooms**
+(channels) + a **roster**, behind a public/private boundary that propagates downward
+(CORNERS.md). It is not a conversation surface; it reuses rooms, membership, keys, and mod
+roles. A corner id is a plain name (`[a-zA-Z0-9_-]{1,64}`) in the **same id-space as rooms**;
+its board/lobby/channels are ordinary rooms named `<corner>-board` / `<corner>-lobby` /
+`<corner>-<sub>`. Advertised via the **`corners`** `hello` feature.
+
+| request | reply on success |
+|---|---|
+| `{"type":"corner_create", "corner", "private"?}` | `{"type":"corner_created", "corner", "board", "lobby", "private"}` — create a community. Makes a **board** (`<corner>-board`, `kind:"board"`) + a **lobby** (`<corner>-lobby`, a corner-wide chat room) + the roster/privacy boundary; the creator is **sponsor** and first member (auto-joined board + lobby). `private` defaults **false** (public, subreddit-like). Board creation, disabled for `room_create`, is re-opened only here. The corner id + its derived board/lobby ids must all be free across BOTH the room and corner namespaces. For a **private** corner the board/lobby are sealed rooms whose keys the creator establishes client-side afterward, exactly as for a private room (§7a). |
+| `{"type":"corner_info", "corner"}` | `{"type":"corner_info", "corner", "board", "lobby", "private", "join_policy", "sponsor", "sponsor_did", "members"}` — read a corner (public read); `members` = roster size, `sponsor` = current @handle |
+| `{"type":"corner_room_create", "corner", "room", "private"?}` | `{"type":"corner_room_created", "corner", "room", "private"}` — add a **channel** inside a corner (id `<corner>-<room>`). **Corner admins only** (sponsor or corner-mod). Enforces the privacy lattice (§3): a channel may be **more** private than its corner but never less (a public channel in a private corner → error), and defaults to the corner's privacy. |
+| `{"type":"corner_join", "corner"}` | `{"type":"corner_joined", "corner", "board", "lobby"}` — join: become a roster member + **auto-join** the corner-wide rooms (board + lobby). **Public** corner = open join; **private** corner = invite-only (a mod must `corner_invite` you first → else error). |
+| `{"type":"corner_leave", "corner"}` | `{"type":"corner_left", "corner"}` — leave: off the roster AND out of **every** room of the corner |
+| `{"type":"corner_invite", "corner", "name"\|"did"}` | `{"type":"corner_invited", "corner", "did"}` — a corner mod grants a profile the right to join a **private** corner |
+| `{"type":"corner_mod_grant", "corner", "name"\|"did"}` / `{"type":"corner_mod_revoke", ...}` | `{"type":"corner_mod_granted"/"corner_mod_revoked", "corner", "did"}` — the corner **sponsor only** mints/demotes a corner mod. A corner mod moderates the board + **all** corner rooms + the roster (the middle moderation tier, §6.3: system mods > corner mods > room mods) — so they can `delete_message`/`kick` in any corner room and add channels. |
+| `{"type":"corner_kick", "corner", "name"\|"did"}` | `{"type":"corner_kicked", "corner", "did"}` — a corner mod removes a member from the roster AND every corner room; the sponsor is unkickable |
+
+> Corner ops address by `did` or `@handle` (1c-B), like the room addressing ops. There is
+> currently exactly one server-seeded corner, `commons` (its board is the `bigboard`); its
+> name is reserved. Per-corner room-name namespacing and a cross-corner personal feed are
+> future work (CORNERS.md §6.4 / §7).
+
 ## 5. Semantics clients must implement correctly
 
 - **`sync`/`history` is the live-delivery switch.** After `join`, no live
