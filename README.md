@@ -14,7 +14,11 @@ communicate. It owns the *interface*; the server + client repos own the
 - the voucher and anon-token schemes (sign on the account plane, verify on the chat plane),
 - PCM comment/markdown normalization (`pcm.normalize_pcm` — franking-critical, Dart-mirrored) + `canonical_json`, its structured analog,
 - blob/media descriptor bodies (`PMBLOB1:`), blurhash validation, DID/base58 helpers,
-- the protocol-version handshake (`PROTOCOL_VERSION` / `MIN_PROTOCOL` / `protocol_compatible`).
+- the protocol-version handshake (`PROTOCOL_VERSION` / `MIN_PROTOCOL` / `protocol_compatible`),
+- client crypto (`pmcrypto` — the Dart `PmCrypto` counterpart): room encryption, blob/meta
+  sealing, franking-key derivation, and profile-key/identity derivation. It **re-exports**
+  `wire`'s signing/commitment primitives rather than copying them (so `import pmcrypto as
+  crypto` gives a client everything, from one source).
 
 Why it exists: this code is implemented more than once (Python here, mirrored in Dart
 in the client) and **must stay byte-identical** — a mismatch isn't cosmetic, it's a

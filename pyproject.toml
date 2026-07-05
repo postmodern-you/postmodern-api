@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "postmodern-api"
-version = "0.2.0"
+version = "0.3.0"
 description = "The Postmodern wire protocol — the byte-identical contract shared by the chat server, the account server, and clients."
 requires-python = ">=3.11"
 license = { text = "AGPL-3.0-or-later" }
@@ -19,4 +19,4 @@ dev = ["hypothesis>=6", "pytest>=8"]
 #   wire — signed-event bytes, vouchers, anon-tokens, canonical JSON, blob descriptors
 #   pcm  — the PCM comment/markdown normalizer (franking-critical; Dart-mirrored)
 [tool.setuptools]
-py-modules = ["wire", "pcm"]
+py-modules = ["wire", "pcm", "pmcrypto"]
