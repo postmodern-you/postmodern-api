@@ -341,6 +341,18 @@ def inbox_room(did: str) -> str:
     return INBOX_PREFIX + hashlib.sha256(did.encode()).hexdigest()[:24]
 
 
+# A profile's PERSONAL BOARD — its own posts (the "You" tab). DID-keyed (stable across
+# handle changes) like the inbox — NOT `<handle>-board`, which would collide with a corner's
+# `<corner>-board` and orphan on a handle change. A SPECIFIC prefix (not the generic "board-",
+# which boards/test fixtures may use) so the reserved namespace can't be tripped. Server
+# auto-creates it lazily; owner-post-only.
+PERSONAL_BOARD_PREFIX = "pboard-"
+
+
+def personal_board(did: str) -> str:
+    return PERSONAL_BOARD_PREFIX + hashlib.sha256(did.encode()).hexdigest()[:24]
+
+
 # A system moderator's private mod-review room — server-authored, member = that mod
 # only — where the server crossposts every scanned public image's verdict for human
 # review. Named from the mod's permanent DID (like the inbox) so it's stable.
@@ -370,7 +382,8 @@ def is_reserved_room_name(name: str) -> bool:
     `_ensure_franking_room`/`_crosspost_verdict`)."""
     return (name == BIGBOARD
             or name == FRANKING_REPORTS_ROOM
-            or name.startswith((INBOX_PREFIX, MODREVIEW_PREFIX, POST_ROOM_PREFIX)))
+            or name.startswith((INBOX_PREFIX, MODREVIEW_PREFIX, POST_ROOM_PREFIX,
+                                PERSONAL_BOARD_PREFIX)))
 
 
 def parse_quote(text: str):
